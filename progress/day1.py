@@ -1,0 +1,36 @@
+# basic fast api syntax
+
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
+
+posts: list[dict] = [
+    {
+        "id": 1,
+        "author": "Corey Schafer",
+        "title": "FastAPI is Awesome",
+        "content": "This framework is really easy to use and super fast.",
+        "date_posted": "April 20, 2025",
+    },
+    {
+        "id": 2,
+        "author": "Jane Doe",
+        "title": "Python is Great for Web Development",
+        "content": "Python is a great language for web development, and FastAPI makes it even better.",
+        "date_posted": "April 21, 2025",
+    },
+]
+
+app = FastAPI() #this app object will be use to define the whole route
+
+@app.get("/", response_class=HTMLResponse, include_in_schema=False) #here it will gonna trigger the home route
+@app.get("/posts", response_class=HTMLResponse, include_in_schema=False) #here we stacked the decorator for us to access same data from diff route 
+def home():
+    return f"<h1>{posts[0]['title']}</h1>"
+
+
+@app.get("/api/posts")
+def get_post():
+    return posts
+
+

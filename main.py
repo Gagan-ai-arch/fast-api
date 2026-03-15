@@ -1,8 +1,8 @@
-# basic fast api syntax
+# frontend with jinja templates
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-
+from fastapi import FastAPI, Request #request  is required by jinja
+#we dont need HTMLResponse now that we have jinja2templates
+from fastapi.templating import Jinja2Templates #jinja2templates for templating
 
 posts: list[dict] = [
     {
@@ -22,12 +22,15 @@ posts: list[dict] = [
 ]
 
 app = FastAPI() #this app object will be use to define the whole route
-
-@app.get("/", response_class=HTMLResponse, include_in_schema=False) #here it will gonna trigger the home route
-@app.get("/posts", response_class=HTMLResponse, include_in_schema=False) #here we stacked the decorator for us to access same data from diff route 
-def home():
-    return f"<h1>{posts[0]['title']}</h1>"
-
+templates = Jinja2Templates(directory="templates") #here we defined where to find the templates for templating you know what i mean
+@app.get("/",include_in_schema=False) #here it will gonna trigger the home route
+@app.get("/posts",include_in_schema=False) #here we stacked the decorator for us to access same data from diff route 
+def home(request: Request): #jinja need request param for doing stuff
+    return templates.TemplateResponse(
+        request, 
+        "home.html", 
+        {"posts": posts, "title": "Home"}) #requesting our template to run
+#with template  can display the post and title
 
 @app.get("/api/posts")
 def get_post():

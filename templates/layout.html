@@ -1,0 +1,19 @@
+<!-- this would be our parent template -->
+ <!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% if title %}
+                FastAPI Blog - {{ title }}
+            {% else %}
+                FastAPI Blog
+            {% endif %}
+        </title>
+    </head>
+    <body>
+        <!-- this block content will be replaced by child template we can make block like script,scroll bar,etc etc -->
+        {% block content%}
+        {% endblock content%}
+       
+    </body>
+</html>

@@ -1,0 +1,13 @@
+<!-- now we will extend the parent template form here -->
+ {% extends "layout.html"%}
+ <!-- now we will define which block to replace -->
+
+{%block content%}
+        <!-- for looping through the posts -->
+    {% for post in posts %} 
+        <h2>
+            {{post.title}}
+        </h2>
+        <p>{{post.content}}</p>
+    {% endfor %}
+{% endblock content %}
